@@ -11,7 +11,7 @@ Final thing first:
 (Just use a .mp3 / .mp4 / .wav file to see it work. If you are out, you can use this)
 
 
-## [Live demo](https://epic-programmer-official.github.io/Animated-Slider/)
+## [Live demo](https://santosharron.github.io/audio-visualizer-three-js/)
 
 ## License
 
