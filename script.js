@@ -118,21 +118,34 @@ function play() {
         renderer.setSize(window.innerWidth, window.innerHeight);
     }
 
-    function makeRoughBall(mesh, bassFr, treFr) {
-        mesh.geometry.vertices.forEach(function (vertex, i) {
-            var offset = mesh.geometry.parameters.radius;
-            var amp = 7;
-            var time = window.performance.now();
-            vertex.normalize();
-            var rf = 0.00001;
-            var distance = (offset + bassFr ) + noise.noise3D(vertex.x + time *rf*7, vertex.y +  time*rf*8, vertex.z + time*rf*9) * amp * treFr;
-            vertex.multiplyScalar(distance);
-        });
-        mesh.geometry.verticesNeedUpdate = true;
-        mesh.geometry.normalsNeedUpdate = true;
-        mesh.geometry.computeVertexNormals();
-        mesh.geometry.computeFaceNormals();
-    }
+    function makeRoughBall(mesh, bassFrequency, trebleFrequency) {
+		var r = mesh.geometry.parameters.radius;
+		var amplitude = 3;
+		var time = window.performance.now();
+	
+		mesh.geometry.vertices.forEach(function (vertex) {
+			// Normalize vertex
+			vertex.normalize();
+	
+			// random noise factor
+			var nf = 0.00001;
+            
+			var distance = (r + bassFrequency) + noise.noise3D(
+				vertex.x + time * nf * 2,
+				vertex.y + time * nf * 2,
+				vertex.z + time * nf * 6
+			) * amplitude * trebleFrequency;
+	
+			// Adjust vertex position based on distance
+			vertex.multiplyScalar(distance);
+		});
+	
+		// Update geometry
+		mesh.geometry.verticesNeedUpdate = true;
+		mesh.geometry.normalsNeedUpdate = true;
+		mesh.geometry.computeVertexNormals();
+		mesh.geometry.computeFaceNormals();
+	}
 
     function makeRoughGround(mesh, distortionFr) {
         mesh.geometry.vertices.forEach(function (vertex, i) {
